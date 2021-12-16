@@ -1,0 +1,5 @@
+services:
+  -
+    class: PhilNelson\PHPStanContainerExtension\ContainerDynamicReturnTypeResolver
+    tags:
+      - phpstan.broker.dynamicMethodReturnTypeExtension

@@ -1,0 +1,33 @@
+{
+    "name": "phil-nelson/phpstan-container-extension",
+    "description": "PHPStan extension to resolve return type for PSR-11 container",
+    "type": "phpstan-extension",
+    "require": {
+        "phpstan/phpstan": "^1.0",
+        "psr/container": "^1.0 || ^2.0",
+        "php": "^7.0 || ^8.0"
+    },
+    "license": "LGPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "PhilNelson\\PHPStanContainerExtension\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Philip Nelson",
+            "email": "philip@whatsbeef.net"
+        }
+    ],
+    "minimum-stability": "stable",
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
