@@ -4,12 +4,11 @@ declare(strict_types = 1);
 namespace PhilNelson\PHPStanContainerExtension;
 
 use PHPStan\Testing\TypeInferenceTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class ContainerDynamicReturnTypeResolverTest extends TypeInferenceTestCase
 {
-    /**
-     * @dataProvider dataFileAsserts
-     */
+    #[DataProvider('dataFileAsserts')]
     public function testFileAsserts(
         string $assertType,
         string $file,
@@ -22,9 +21,9 @@ class ContainerDynamicReturnTypeResolverTest extends TypeInferenceTestCase
     /**
      * @return iterable<mixed>
      */
-    public function dataFileAsserts(): iterable
+    public static function dataFileAsserts(): iterable
     {
-        yield from $this->gatherAssertTypes(__DIR__ . '/data/container-types.php');
+        yield from self::gatherAssertTypes(__DIR__ . '/data/container-types.php');
     }
 
     public static function getAdditionalConfigFiles(): array

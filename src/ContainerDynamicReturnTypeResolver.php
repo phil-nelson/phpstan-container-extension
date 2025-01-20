@@ -8,7 +8,6 @@ use Psr\Container\ContainerInterface;
 use PHPStan\Analyser\Scope;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ParametersAcceptorSelector;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\DynamicMethodReturnTypeExtension;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
@@ -32,16 +31,16 @@ final class ContainerDynamicReturnTypeResolver implements DynamicMethodReturnTyp
     ): Type {
         $args = $methodCall->getArgs();
         if (count($args) !== 1) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+            return ParametersAcceptorSelector::selectFromArgs($scope, $methodCall->getArgs(), $methodReflection->getVariants())->getReturnType();
         }
 
         $argType = $scope->getType($args[0]->value);
-        if (!$argType instanceof ConstantStringType) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        if (count($argType->getConstantStrings()) === 0) {
+            return ParametersAcceptorSelector::selectFromArgs($scope, $methodCall->getArgs(), $methodReflection->getVariants())->getReturnType();
         }
 
-        if (!$argType->isClassString()) {
-            return ParametersAcceptorSelector::selectSingle($methodReflection->getVariants())->getReturnType();
+        if ($argType->isClassString()->no()) {
+            return ParametersAcceptorSelector::selectFromArgs($scope, $methodCall->getArgs(), $methodReflection->getVariants())->getReturnType();
         }
 
         return new ObjectType($argType->getValue());
